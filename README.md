@@ -116,6 +116,7 @@ Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación 
 
 
 
+
 """esto es importante... 
 
 ¿Qué tenemos que saber de cada columna?
