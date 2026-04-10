@@ -92,11 +92,11 @@ Indica la velocidad del eje virtual (o eje maestro de referencia) en la estació
 12.- **hour** -> Valores mínimo y máximo: 00 a 23
 
 ### ESTAS 3 COLUMNAS, 10, 11 Y 12, REPRESENTAN LA DESCOMPOSICIÓN DE LA MARCA DEL TIEMPO  ORIGINAL EN UNIDADES DISCRETAS.
-@ Clasificación de variable: int, temporal. 
+@ Clasificación de variable: numericas discretas int, temporal. 
 
 
 13.- **sample_Number** -> Es un contador secuencial y único asignado a cada fila de datos. A diferencia del timestamp, que mide el tiempo real, el sample_Number mide el orden de captura. En sistemas de alta velocidad, es el identificador que asegura que no se ha perdido ningún paquete de información entre el sensor y la base de datos.
-@ Clasificación de variable: int, Secuencial. 
+@ Clasificación de variable: numerica discreta, int64. 
 @ Valores mínimo y máximo: 0 / 518
 
 14.- **mode** -> En sistemas industriales, cada número suele corresponder a una fase específica del ciclo de trabajo o a una configuración de producto distinta.
@@ -109,8 +109,8 @@ Modos de Preparación (ej. 1-2): Homing (búsqueda de cero), limpieza o enhebrad
 Modos de Producción (ej. 3-4): Diferentes velocidades de crucero o distintos tamaños de corte en pCut. Aquí es donde el Lag_error es más sensible.
 
 Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación tras una parada de emergencia.
-@ Clasificación de variable: categórico, int (contexto).
-@ Valores mínimo y máximo: mode1 / mode6
+@ Clasificación de variable: Categórica ordinal, int (contexto).
+@ Valores mínimo y máximo: mode1 / mode7
 
 ## ES FUNDAMENTAL REVISAR ESTOS DATOS, NO HE CONSEGUIDO ABRIR LA BASE DE DATOS PARA REVISAR SI ESTA INFORMACIÓN PUEDE ESTAR RELACIONADA CON NUESTRA MAQUINARIA (KRY).
 
