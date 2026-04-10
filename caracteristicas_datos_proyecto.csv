@@ -1,0 +1,13 @@
+Columna,Tipo de Dato,Categor�a,Descripci�n / Funci�n
+timestamp,Datetime,Temporal,Eje de tiempo principal para an�lisis de series temporales.
+pCut::Motor_Torque,Numerico (Float),Carga/Esfuerzo,Fuerza que ejerce el motor de corte. Indicador de desgaste mec�nico.
+pCut::...::Lag_error,Numerico (Float),Precisi�n,Desviaci�n entre posici�n real y te�rica. Crucial para predecir fallos.
+pCut::...::Actual_position,Numerico (Float),Estado F�sico,Ubicaci�n exacta de la cuchilla en el ciclo.
+pCut::...::Actual_speed,Numerico (Float),Cinem�tica,Velocidad de rotaci�n/movimiento del eje de corte.
+pSvolFilm::...::Actual_position,Num�rico (Float),Estado F�sico,Posici�n del desbobinador de film.
+pSvolFilm::...::Actual_speed,Num�rico (Float),Cinem�tica,Velocidad de alimentaci�n del material.
+pSvolFilm::...::Lag_error,Num�rico (Float),Precisi�n,Error de seguimiento en el arrastre del film.
+pSpintor::VAX_speed,Num�rico (Float),Cinem�tica,Velocidad del eje principal o variador (referencia de velocidad).
+month / day / hour,Entero (Int),Temporal,Desglose de tiempo para detectar patrones estacionales o turnos.
+sample_Number,Entero (Int),Secuencial,�ndice del registro dentro de una r�faga de datos o ciclo.
+mode,Categ�rico / Int,Contexto,"Estado de la m�quina (Manual, Auto, Mantenimiento, Parada)."
