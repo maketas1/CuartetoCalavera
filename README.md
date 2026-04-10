@@ -123,3 +123,6 @@ Definición._.
 Unidad de medida ._.
 Tipo de variable (si es categórica necesitamos saber los valores únicos y su distribución)
 Gráficos y preprocesamiento aplicado"""
+
+
+GUARDARRRRRRR
