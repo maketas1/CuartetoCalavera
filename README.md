@@ -116,6 +116,7 @@ Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación 
 
 
 
+
 """esto es importante... 
 
 ¿Qué tenemos que saber de cada columna?
@@ -123,3 +124,4 @@ Definición._.
 Unidad de medida ._.
 Tipo de variable (si es categórica necesitamos saber los valores únicos y su distribución)
 Gráficos y preprocesamiento aplicado"""
+
