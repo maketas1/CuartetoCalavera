@@ -29,34 +29,34 @@ https://www.kaggle.com/datasets/iuryck/datasetsone-year-compiledcsv
 
 2.-  **pCut::Motor_Torque** (Par (torque) del motor en la estación o proceso “pCut”) -> Esta columna es el complemento perfecto para el Lag_error que vimos antes. Si el Lag_error nos dice cuánto se está retrasando la máquina, el Motor_Torque nos dice cuánta fuerza está teniendo que hacer para intentar cumplir con su tarea.
 Registra el par de torsión (fuerza de giro) generado por el motor en la estación de corte (pCut). En un sistema de lazo cerrado, el controlador aumenta el torque cuando detecta una resistencia física para mantener la velocidad o posición programada. Se mide habitualmente en Newton-metro (Nm) o como un porcentaje del torque nominal del motor.
-@ Clasificación de variable: numérica, float, Carga/esfuerzo.
+@ Clasificación de variable: numérica continua, float, Carga/esfuerzo.
 @ Valores mínimo y máximo: -6.56 / 3.86 
 
 3.-  **pCut::CTRL_Position_controller::Lag_error**	(Error de seguimiento (lag error) en el controlador de posición de “pCut”). -> Representa el error de seguimiento del controlador de posición en la estación de corte (pCut). Es la diferencia instantánea entre la posición teórica dictada por el perfil de movimiento (consigna) y la posición real medida por el encoder del motor. En un sistema ideal, este valor debería ser cercano a cero.
-@ Clasificación de variable: numérica, float, Precisión.
+@ Clasificación de variable: numérica continua, float, Precisión.
 @ Valores mínimo y máximo: -1.89 / 2.02
 
 
 4.-  **pCut::CTRL_Position_controller::Actual_position** -> Con esta columna cerramos el triángulo fundamental del control de movimiento: Lo que pides (Setpoint), lo que haces (Actual Position) y la diferencia (Lag Error).
 Es la lectura en tiempo real del sensor de posición (normalmente un encoder rotativo o lineal) en la estación de corte. Indica el lugar físico exacto donde se encuentra la herramienta o el material en un instante "t". A diferencia de la "posición de consigna" (que es lo que la máquina cree que debería hacer), esta es la verdad física del proceso.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -2039056494 / 1.91b
 
 
 5.-  **pCut::CTRL_Position_controller::Actual_speed** -> (Esta columna es el "ritmo cardíaco" de la estación de corte. Mientras que la posición nos dice dónde está, la velocidad nos dice cómo de estable es el movimiento.)
 Descripción ampliada:
 Indica la velocidad instantánea real a la que se desplaza el eje en la estación pCut. Se obtiene generalmente calculando la tasa de cambio de la posición en el tiempo (derivada de la posición). En un entorno industrial, se suele expresar en milímetros por segundo (mm/s) o revoluciones por minuto (RPM).
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -9,48k / 17,9k
 
 6.-  **pSvolFilm::CTRL_Position_controller::Actual_position**	(Posición real actual en el sistema o estación “pSvolFilm”) -> Pasamos de la estación de corte (pCut) a pSvolFilm. Por el nombre, esto suena a un sistema de desbobinado o alimentación de film (lámina de plástico o papel). Aquí la dinámica cambia: ya no es un golpe seco como el corte, sino un movimiento continuo y fluido.
 Registra la ubicación física exacta del eje encargado del manejo del film en la estación pSvolFilm. Mientras que en el corte la posición suele ser un recorrido de ida y vuelta, en un sistema de film, esta variable suele indicar la cantidad de material que ha pasado o la posición de un rodillo compensador (dancer arm) que mantiene la tensión.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: 194k / 1.45b
 
 7.-  **pSvolFilm::CTRL_Position_controller::Actual_speed**	Velocidad real actual en el sistema “pSvolFilm” -> Al tratarse de la estación pSvolFilm, esta velocidad es el factor determinante para que el material no se rompa ni se amontone.
 Representa la velocidad lineal o rotacional real del eje de alimentación de film. A diferencia de un eje de corte que acelera y frena bruscamente, la velocidad en pSvolFilm suele buscar un estado estacionario (constante) para garantizar que el material fluya sin tirones. Es la métrica que nos dice qué tan rápido se está desenrollando o transportando la lámina.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -20.1 - 18k 
 
 8.-  **pSvolFilm::CTRL_Position_controller::Lag_error** -> En un controlador de posición (position controller), el Lag_error es la diferencia matemática entre la posición que el algoritmo le ordena a la máquina tener y la posición real que los sensores reportan en un momento exacto "t" (tiempo continuo).
@@ -77,12 +77,12 @@ Con respecto a "t": Es crucial tener el tiempo en este punto, ya que:
 En tu base de datos, el error de lag no se analiza de forma aislada, sino en función de cómo evoluciona:
 "t_0" (Estado ideal): La máquina recibe la orden de moverse y el motor responde casi al instante. El error es cercano a cero.
 "t_{n}" (El retraso): Debido a la inercia, el rozamiento o el peso de la pieza, la parte mecánica siempre va un "pelín" por detrás de la orden eléctrica. Ese "retraso" es el que se mide en cada instante.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -0.91 / 3.57
 
 9.-  **pSpintor::VAX_speed** -> El nombre pSpintor suena a una estación de giro o torsión (posiblemente un cabezal giratorio o un eje principal de tracción). Y el prefijo VAX suele referirse a un Eje Virtual (Virtual Axis) o a un valor de referencia de alta precisión.
 Indica la velocidad del eje virtual (o eje maestro de referencia) en la estación de giro pSpintor. A diferencia de las velocidades "Actual", la VAX_speed suele representar la velocidad teórica ideal que el sistema intenta alcanzar para que el resto de los ejes (como el corte y el film) se sincronicen con ella. Es el "metrónomo" que marca el ritmo de toda la maquinaria.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: 0 / 3,6k
 
 10.- **month** -> Valores mínimo y máximo: 1 al 12
@@ -125,4 +125,3 @@ Tipo de variable (si es categórica necesitamos saber los valores únicos y su d
 Gráficos y preprocesamiento aplicado"""
 
 
-GUARDARRRRRRR
