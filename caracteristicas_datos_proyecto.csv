@@ -1,7 +1,7 @@
 Columna,Tipo de Dato,Categor�a,Descripci�n / Funci�n
 timestamp,Datetime,Temporal,Eje de tiempo principal para an�lisis de series temporales.
-pCut::Motor_Torque,Numerico (Float),Carga/Esfuerzo,Fuerza que ejerce el motor de corte. Indicador de desgaste mec�nico.
-pCut::...::Lag_error,Numerico (Float),Precisi�n,Desviaci�n entre posici�n real y te�rica. Crucial para predecir fallos.
+pCut::Motor_Torque,Numerico continua (Float),Carga/Esfuerzo,Fuerza que ejerce el motor de corte. Indicador de desgaste mec�nico.
+pCut::...::Lag_error,Numerico continua (Float),Precisi�n,Desviaci�n entre posici�n real y te�rica. Crucial para predecir fallos.
 pCut::...::Actual_position,Numerico (Float),Estado F�sico,Ubicaci�n exacta de la cuchilla en el ciclo.
 pCut::...::Actual_speed,Numerico (Float),Cinem�tica,Velocidad de rotaci�n/movimiento del eje de corte.
 pSvolFilm::...::Actual_position,Num�rico (Float),Estado F�sico,Posici�n del desbobinador de film.
