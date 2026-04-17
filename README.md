@@ -57,7 +57,7 @@ Registra la ubicación física exacta del eje encargado del manejo del film en l
 7.-  **pSvolFilm::CTRL_Position_controller::Actual_speed**	Velocidad real actual en el sistema “pSvolFilm” -> Al tratarse de la estación pSvolFilm, esta velocidad es el factor determinante para que el material no se rompa ni se amontone.
 Representa la velocidad lineal o rotacional real del eje de alimentación de film. A diferencia de un eje de corte que acelera y frena bruscamente, la velocidad en pSvolFilm suele buscar un estado estacionario (constante) para garantizar que el material fluya sin tirones. Es la métrica que nos dice qué tan rápido se está desenrollando o transportando la lámina.
 @ Clasificación de variable: numérica continua, float.
-@ Valores mínimo y máximo: -20.1 - 18k 
+@ Valores mínimo y máximo: -20.1 - 18k (Carlos) (float) (Numérica)
 
 8.-  **pSvolFilm::CTRL_Position_controller::Lag_error** -> En un controlador de posición (position controller), el Lag_error es la diferencia matemática entre la posición que el algoritmo le ordena a la máquina tener y la posición real que los sensores reportan en un momento exacto "t" (tiempo continuo).
 Ahora bien, es importante conocer: 
@@ -78,12 +78,12 @@ En tu base de datos, el error de lag no se analiza de forma aislada, sino en fun
 "t_0" (Estado ideal): La máquina recibe la orden de moverse y el motor responde casi al instante. El error es cercano a cero.
 "t_{n}" (El retraso): Debido a la inercia, el rozamiento o el peso de la pieza, la parte mecánica siempre va un "pelín" por detrás de la orden eléctrica. Ese "retraso" es el que se mide en cada instante.
 @ Clasificación de variable: numérica continua, float.
-@ Valores mínimo y máximo: -0.91 / 3.57
+@ Valores mínimo y máximo: -0.91 / 3.57 (Carlos) (float) (Numérica)
 
 9.-  **pSpintor::VAX_speed** -> El nombre pSpintor suena a una estación de giro o torsión (posiblemente un cabezal giratorio o un eje principal de tracción). Y el prefijo VAX suele referirse a un Eje Virtual (Virtual Axis) o a un valor de referencia de alta precisión.
 Indica la velocidad del eje virtual (o eje maestro de referencia) en la estación de giro pSpintor. A diferencia de las velocidades "Actual", la VAX_speed suele representar la velocidad teórica ideal que el sistema intenta alcanzar para que el resto de los ejes (como el corte y el film) se sincronicen con ella. Es el "metrónomo" que marca el ritmo de toda la maquinaria.
 @ Clasificación de variable: numérica continua, float.
-@ Valores mínimo y máximo: 0 / 3,6k
+@ Valores mínimo y máximo: 0 / 3,6k (Carlos) (float) (Numérica)
 
 10.- **month** -> Valores mínimo y máximo: 1 al 12
 
