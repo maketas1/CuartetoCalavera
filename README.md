@@ -19,7 +19,7 @@ Los objetivos principales del proyecto:
 - Se utilizará una base de datos obtenida desde kaggle:
 https://www.kaggle.com/datasets/iuryck/datasetsone-year-compiledcsv
 
-- Esta base de datos posee más de 1000000 de filas y 14 columnas.
+- Esta base de datos posee más de 1 000 000 de filas y 14 columnas.
 
 - Una de los analisis más importantes son las columnas, estas es la explicación de cada una:
 
