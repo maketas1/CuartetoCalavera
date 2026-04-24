@@ -27,7 +27,7 @@ https://www.kaggle.com/datasets/iuryck/datasetsone-year-compiledcsv
 @ Clasificación de variable: datetime, temporal.
 @ Valores mínimo y máximo: 0 / 8.2
 
-2.-  **pCut::Motor_Torque** (Par (torque) del motor en la estación o proceso “pCut”) -> Esta columna es el complemento perfecto para el Lag_error que vimos antes. Si el Lag_error nos dice cuánto se está retrasando la máquina, el Motor_Torque nos dice cuánta fuerza está teniendo que hacer para intentar cumplir con su tarea.
+2.-  **pCut::Motor_Torque** (Par (torque) del motor en la estación o proceso “pCut”) -> Esta columna es el complemento perfecto para el Lag_error. Si el Lag_error nos dice cuánto se está retrasando la máquina, el Motor_Torque nos dice cuánta fuerza está teniendo que hacer para intentar cumplir con su tarea.
 Registra el par de torsión (fuerza de giro) generado por el motor en la estación de corte (pCut). En un sistema de lazo cerrado, el controlador aumenta el torque cuando detecta una resistencia física para mantener la velocidad o posición programada. Se mide habitualmente en Newton-metro (Nm) o como un porcentaje del torque nominal del motor.
 @ Clasificación de variable: numérica continua, float, Carga/esfuerzo.
 @ Valores mínimo y máximo: -6.56 / 3.86 
@@ -115,6 +115,16 @@ Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación 
 ## ES FUNDAMENTAL REVISAR ESTOS DATOS, NO HE CONSEGUIDO ABRIR LA BASE DE DATOS PARA REVISAR SI ESTA INFORMACIÓN PUEDE ESTAR RELACIONADA CON NUESTRA MAQUINARIA (KRY).
 
 
+## PREGUNTAS
+
+1.- ¿Existe variación entre la fuerza que ejerce el motor torque en los diversos modos?
+
+2.- ¿Cuál es la relación entre la fuerza que ejerce el motor torque y el roce que es medido por lag_error?
+* La diferencia entre el motor de torque, posición actual, nos puede indicar el lag_error.
+
+
+
+https://cursos.kobalto.es/teoria/seaborn-criterio-experto
 
 
 """esto es importante... 
