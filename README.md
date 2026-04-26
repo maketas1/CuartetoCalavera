@@ -104,24 +104,46 @@ Variable categórica que define el estado operativo de la máquina. Estos 6 modo
 
 (Hipótesis común en este tipo de máquinas):
 
-Modos de Preparación (ej. 1-2): Homing (búsqueda de cero), limpieza o enhebrado del film (pSvolFilm). Aquí el torque es bajo y las velocidades son lentas.
+Modo 1-2: Inicio / Referenciado (Homing) -> Búsqueda de cero, limpieza o enhebrado del film (pSvolFilm). Aquí el torque es bajo y las velocidades son lentas.
 
-Modos de Producción (ej. 3-4): Diferentes velocidades de crucero o distintos tamaños de corte en pCut. Aquí es donde el Lag_error es más sensible.
+Modo 3-4: Producción Manual o Lenta (Ajustes).* diversas velocidades
 
-Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación tras una parada de emergencia.
+Modo 5-6: Producción Automática (Alta velocidad).*
+
+* En estos modos el Lag_error es más sensible.
+
+Modo 7: Parada de Emergencia / Recuperación. Estados de pausa, error o recuperación tras una parada de emergencia.
+
+Modo 8: Mantenimiento / Diagnóstico.
 @ Clasificación de variable: Categórica ordinal, int (contexto).
-@ Valores mínimo y máximo: mode1 / mode7
+@ Valores mínimo y máximo: mode1 / mode8 
 
-## ES FUNDAMENTAL REVISAR ESTOS DATOS, NO HE CONSEGUIDO ABRIR LA BASE DE DATOS PARA REVISAR SI ESTA INFORMACIÓN PUEDE ESTAR RELACIONADA CON NUESTRA MAQUINARIA (KRY).
 
 
 ## PREGUNTAS
 
-1.- ¿Existe variación entre la fuerza que ejerce el motor torque en los diversos modos?
+1. ¿En qué modo de operación la máquina "sufre" más?
+La respuesta técnica: Usando la columna pCut::Motor_Torque.
 
-2.- ¿Cuál es la relación entre la fuerza que ejerce el motor torque y el roce que es medido por lag_error?
-* La diferencia entre el motor de torque, posición actual, nos puede indicar el lag_error.
+Análisis: Comparas el promedio de torque en el Modo 1 frente al Modo 8. Esta es una buena opción para realizar una gráfica, hay que incluir hue= mode
 
+@ Ahora bien, la utilidad que va a tener este dato o respuesta frente a las empresas es poder señalar que por ejemplo, en el modo 5 o 6, el motor trabaja al 90% de su capacidad, sugiriendo que en ese modo la vida útil de los engranajes se ven reducidos. 
+
+2. ¿Existe una "fatiga invisible" en la estación de corte (pCut)?
+- La fatiga invisible, corresponde al deterioro que no provoca una parada inmediata en la maquinaria, pero que está consumiendo su vida útil. Muchas veces este deterioro es más bajo al que los sensores pueden detectar.
+
+Respuesta técnica: Relacionando Actual_speed con Lag_error. Estos son los datos que están más vinculados y con los que se podría realizar un analisis de regresión. 
+
+- A veces, a la misma velocidad, el error de posición es mayor hoy que hace una semana. Eso se llama drift (deriva).
+
+@ Una respuesta al analisis de estos datos para la empresa, como ejemplo se podría señalar que manteniendo la velocidad constante, el error de precisión aumenta un 5% cada 100 horas. Esto es una señal clara de que falta lubricación o hay desgaste en el rodamiento".
+
+3. ¿Están sincronizadas la alimentación de film (pSvolFilm) y el corte (pCut)?
+La respuesta técnica: Correlación entre las dos Actual_speed.
+
+- Si la velocidad del film varía bruscamente justo antes de que el Lag_error del corte suba, el problema no es la cuchilla, es el tirón que da el film.
+
+Una respuesta al analisis de estos datos para la empresa, Muchos de los errores de corte (80%)son causados por una desincronización en la tensión del film, no por un fallo del motor de corte.
 
 
 https://cursos.kobalto.es/teoria/seaborn-criterio-experto
