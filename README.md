@@ -29,34 +29,34 @@ https://www.kaggle.com/datasets/iuryck/datasetsone-year-compiledcsv
 
 2.-  **pCut::Motor_Torque** (Par (torque) del motor en la estación o proceso “pCut”) -> Esta columna es el complemento perfecto para el Lag_error. Si el Lag_error nos dice cuánto se está retrasando la máquina, el Motor_Torque nos dice cuánta fuerza está teniendo que hacer para intentar cumplir con su tarea.
 Registra el par de torsión (fuerza de giro) generado por el motor en la estación de corte (pCut). En un sistema de lazo cerrado, el controlador aumenta el torque cuando detecta una resistencia física para mantener la velocidad o posición programada. Se mide habitualmente en Newton-metro (Nm) o como un porcentaje del torque nominal del motor.
-@ Clasificación de variable: numérica, float, Carga/esfuerzo.
+@ Clasificación de variable: numérica continua, float, Carga/esfuerzo.
 @ Valores mínimo y máximo: -6.56 / 3.86 
 
 3.-  **pCut::CTRL_Position_controller::Lag_error**	(Error de seguimiento (lag error) en el controlador de posición de “pCut”). -> Representa el error de seguimiento del controlador de posición en la estación de corte (pCut). Es la diferencia instantánea entre la posición teórica dictada por el perfil de movimiento (consigna) y la posición real medida por el encoder del motor. En un sistema ideal, este valor debería ser cercano a cero.
-@ Clasificación de variable: numérica, float, Precisión.
+@ Clasificación de variable: numérica continua, float, Precisión.
 @ Valores mínimo y máximo: -1.89 / 2.02
 
 
 4.-  **pCut::CTRL_Position_controller::Actual_position** -> Con esta columna cerramos el triángulo fundamental del control de movimiento: Lo que pides (Setpoint), lo que haces (Actual Position) y la diferencia (Lag Error).
 Es la lectura en tiempo real del sensor de posición (normalmente un encoder rotativo o lineal) en la estación de corte. Indica el lugar físico exacto donde se encuentra la herramienta o el material en un instante "t". A diferencia de la "posición de consigna" (que es lo que la máquina cree que debería hacer), esta es la verdad física del proceso.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -2039056494 / 1.91b
 
 
 5.-  **pCut::CTRL_Position_controller::Actual_speed** -> (Esta columna es el "ritmo cardíaco" de la estación de corte. Mientras que la posición nos dice dónde está, la velocidad nos dice cómo de estable es el movimiento.)
 Descripción ampliada:
 Indica la velocidad instantánea real a la que se desplaza el eje en la estación pCut. Se obtiene generalmente calculando la tasa de cambio de la posición en el tiempo (derivada de la posición). En un entorno industrial, se suele expresar en milímetros por segundo (mm/s) o revoluciones por minuto (RPM).
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -9,48k / 17,9k
 
 6.-  **pSvolFilm::CTRL_Position_controller::Actual_position**	(Posición real actual en el sistema o estación “pSvolFilm”) -> Pasamos de la estación de corte (pCut) a pSvolFilm. Por el nombre, esto suena a un sistema de desbobinado o alimentación de film (lámina de plástico o papel). Aquí la dinámica cambia: ya no es un golpe seco como el corte, sino un movimiento continuo y fluido.
 Registra la ubicación física exacta del eje encargado del manejo del film en la estación pSvolFilm. Mientras que en el corte la posición suele ser un recorrido de ida y vuelta, en un sistema de film, esta variable suele indicar la cantidad de material que ha pasado o la posición de un rodillo compensador (dancer arm) que mantiene la tensión.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: 194k / 1.45b
 
 7.-  **pSvolFilm::CTRL_Position_controller::Actual_speed**	Velocidad real actual en el sistema “pSvolFilm” -> Al tratarse de la estación pSvolFilm, esta velocidad es el factor determinante para que el material no se rompa ni se amontone.
 Representa la velocidad lineal o rotacional real del eje de alimentación de film. A diferencia de un eje de corte que acelera y frena bruscamente, la velocidad en pSvolFilm suele buscar un estado estacionario (constante) para garantizar que el material fluya sin tirones. Es la métrica que nos dice qué tan rápido se está desenrollando o transportando la lámina.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -20.1 - 18k 
 
 8.-  **pSvolFilm::CTRL_Position_controller::Lag_error** -> En un controlador de posición (position controller), el Lag_error es la diferencia matemática entre la posición que el algoritmo le ordena a la máquina tener y la posición real que los sensores reportan en un momento exacto "t" (tiempo continuo).
@@ -77,12 +77,12 @@ Con respecto a "t": Es crucial tener el tiempo en este punto, ya que:
 En tu base de datos, el error de lag no se analiza de forma aislada, sino en función de cómo evoluciona:
 "t_0" (Estado ideal): La máquina recibe la orden de moverse y el motor responde casi al instante. El error es cercano a cero.
 "t_{n}" (El retraso): Debido a la inercia, el rozamiento o el peso de la pieza, la parte mecánica siempre va un "pelín" por detrás de la orden eléctrica. Ese "retraso" es el que se mide en cada instante.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: -0.91 / 3.57
 
 9.-  **pSpintor::VAX_speed** -> El nombre pSpintor suena a una estación de giro o torsión (posiblemente un cabezal giratorio o un eje principal de tracción). Y el prefijo VAX suele referirse a un Eje Virtual (Virtual Axis) o a un valor de referencia de alta precisión.
 Indica la velocidad del eje virtual (o eje maestro de referencia) en la estación de giro pSpintor. A diferencia de las velocidades "Actual", la VAX_speed suele representar la velocidad teórica ideal que el sistema intenta alcanzar para que el resto de los ejes (como el corte y el film) se sincronicen con ella. Es el "metrónomo" que marca el ritmo de toda la maquinaria.
-@ Clasificación de variable: numérica, float.
+@ Clasificación de variable: numérica continua, float.
 @ Valores mínimo y máximo: 0 / 3,6k
 
 10.- **month** -> Valores mínimo y máximo: 1 al 12
@@ -92,11 +92,11 @@ Indica la velocidad del eje virtual (o eje maestro de referencia) en la estació
 12.- **hour** -> Valores mínimo y máximo: 00 a 23
 
 ### ESTAS 3 COLUMNAS, 10, 11 Y 12, REPRESENTAN LA DESCOMPOSICIÓN DE LA MARCA DEL TIEMPO  ORIGINAL EN UNIDADES DISCRETAS.
-@ Clasificación de variable: int, temporal. 
+@ Clasificación de variable: numericas discretas int, temporal. 
 
 
 13.- **sample_Number** -> Es un contador secuencial y único asignado a cada fila de datos. A diferencia del timestamp, que mide el tiempo real, el sample_Number mide el orden de captura. En sistemas de alta velocidad, es el identificador que asegura que no se ha perdido ningún paquete de información entre el sensor y la base de datos.
-@ Clasificación de variable: int, Secuencial. 
+@ Clasificación de variable: numerica discreta, int64. 
 @ Valores mínimo y máximo: 0 / 518
 
 14.- **mode** -> En sistemas industriales, cada número suele corresponder a una fase específica del ciclo de trabajo o a una configuración de producto distinta.
@@ -104,19 +104,50 @@ Variable categórica que define el estado operativo de la máquina. Estos 6 modo
 
 (Hipótesis común en este tipo de máquinas):
 
-Modos de Preparación (ej. 1-2): Homing (búsqueda de cero), limpieza o enhebrado del film (pSvolFilm). Aquí el torque es bajo y las velocidades son lentas.
+Modo 1-2: Inicio / Referenciado (Homing) -> Búsqueda de cero, limpieza o enhebrado del film (pSvolFilm). Aquí el torque es bajo y las velocidades son lentas.
 
-Modos de Producción (ej. 3-4): Diferentes velocidades de crucero o distintos tamaños de corte en pCut. Aquí es donde el Lag_error es más sensible.
+Modo 3-4: Producción Manual o Lenta (Ajustes).* diversas velocidades
 
-Modos de Mantenimiento/Fallo (ej. 5-6): Estados de pausa, error o recuperación tras una parada de emergencia.
-@ Clasificación de variable: categórico, int (contexto).
-@ Valores mínimo y máximo: mode1 / mode8
+Modo 5-6: Producción Automática (Alta velocidad).*
 
-## ES FUNDAMENTAL REVISAR ESTOS DATOS, NO HE CONSEGUIDO ABRIR LA BASE DE DATOS PARA REVISAR SI ESTA INFORMACIÓN PUEDE ESTAR RELACIONADA CON NUESTRA MAQUINARIA (KRY).
+* En estos modos el Lag_error es más sensible.
+
+Modo 7: Parada de Emergencia / Recuperación. Estados de pausa, error o recuperación tras una parada de emergencia.
+
+Modo 8: Mantenimiento / Diagnóstico.
+@ Clasificación de variable: Categórica ordinal, int (contexto).
+@ Valores mínimo y máximo: mode1 / mode8 
+
+
 
 ## PREGUNTAS
 
-1.- 
+1. ¿En qué modo de operación la máquina "sufre" más?
+La respuesta técnica: Usando la columna pCut::Motor_Torque.
+
+Análisis: Comparas el promedio de torque en el Modo 1 frente al Modo 8. Esta es una buena opción para realizar una gráfica, hay que incluir hue= mode
+
+@ Ahora bien, la utilidad que va a tener este dato o respuesta frente a las empresas es poder señalar que por ejemplo, en el modo 5 o 6, el motor trabaja al 90% de su capacidad, sugiriendo que en ese modo la vida útil de los engranajes se ven reducidos. 
+
+2. ¿Existe una "fatiga invisible" en la estación de corte (pCut)?
+- La fatiga invisible, corresponde al deterioro que no provoca una parada inmediata en la maquinaria, pero que está consumiendo su vida útil. Muchas veces este deterioro es más bajo al que los sensores pueden detectar.
+
+Respuesta técnica: Relacionando Actual_speed con Lag_error. Estos son los datos que están más vinculados y con los que se podría realizar un analisis de regresión. 
+
+- A veces, a la misma velocidad, el error de posición es mayor hoy que hace una semana. Eso se llama drift (deriva).
+
+@ Una respuesta al analisis de estos datos para la empresa, como ejemplo se podría señalar que manteniendo la velocidad constante, el error de precisión aumenta un 5% cada 100 horas. Esto es una señal clara de que falta lubricación o hay desgaste en el rodamiento".
+
+3. ¿Están sincronizadas la alimentación de film (pSvolFilm) y el corte (pCut)?
+La respuesta técnica: Correlación entre las dos Actual_speed.
+
+- Si la velocidad del film varía bruscamente justo antes de que el Lag_error del corte suba, el problema no es la cuchilla, es el tirón que da el film.
+
+Una respuesta al analisis de estos datos para la empresa, Muchos de los errores de corte (80%)son causados por una desincronización en la tensión del film, no por un fallo del motor de corte.
+
+
+https://cursos.kobalto.es/teoria/seaborn-criterio-experto
+
 
 """esto es importante... 
 
