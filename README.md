@@ -145,15 +145,18 @@ La respuesta técnica: Correlación entre las dos Actual_speed.
 
 Una respuesta al analisis de estos datos para la empresa, Muchos de los errores de corte (80%)son causados por una desincronización en la tensión del film, no por un fallo del motor de corte.
 Respuesta:
-Se ha realizado una correlación de Parson para responder a esta pregunta, y señala que un sensor funciona de forma opuesta al otro sensor, lo que indica que habría que trabajar con ambos sensores de forma separada.
 
 matriz_correlacion = np.corrcoef(df1_copia['pCut::CTRL_Position_controller::Actual_speed'], df1_copia['pSvolFilm::CTRL_Position_controller::Actual_speed'])
 matriz_correlacion[0, 1]
 
-#  mostrar:
+- Mostrar:
 print(f"La sincronización entre film y corte es de: {matriz_correlacion[0, 1]}")
 
 **La sincronización entre film y corte es de: -0.3410932175678699**
+
++ Tras realizar el análisis mediante el Coeficiente de Correlación de Pearson, se ha obtenido un valor de -0.34. Este resultado indica una correlación negativa débil, lo que evidencia que los sensores no están sincronizados: mientras uno aumenta su valor, el otro tiende a disminuirlo, pero sin un patrón coherente.
+
+Conclusión técnica: La falta de sincronía (lejos del valor óptimo de 1 o -1) sugiere que no se pueden tratar como variables dependientes. Por tanto, para un análisis robusto de averías, es necesario trabajar con ambos sensores de forma separada o investigar un posible desfase mecánico/electrónico en la captura de datos.
 
 
 https://cursos.kobalto.es/teoria/seaborn-criterio-experto
