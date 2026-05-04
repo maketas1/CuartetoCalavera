@@ -144,15 +144,23 @@ La respuesta técnica: Correlación entre las dos Actual_speed.
 - Si la velocidad del film varía bruscamente justo antes de que el Lag_error del corte suba, el problema no es la cuchilla, es el tirón que da el film.
 
 Una respuesta al analisis de estos datos para la empresa, Muchos de los errores de corte (80%)son causados por una desincronización en la tensión del film, no por un fallo del motor de corte.
+Respuesta:
+Se ha realizado una correlación de Parson para responder a esta pregunta, y señala que un sensor funciona de forma opuesta al otro sensor, lo que indica que habría que trabajar con ambos sensores de forma separada.
+
+matriz_correlacion = np.corrcoef(df1_copia['pCut::CTRL_Position_controller::Actual_speed'], df1_copia['pSvolFilm::CTRL_Position_controller::Actual_speed'])
+matriz_correlacion[0, 1]
+
+#  mostrar:
+print(f"La sincronización entre film y corte es de: {matriz_correlacion[0, 1]}")
+
+**La sincronización entre film y corte es de: -0.3410932175678699**
 
 
 https://cursos.kobalto.es/teoria/seaborn-criterio-experto
 
+## SIGUIENTES PASOS
+@@ PREPROCESAMIENTO
 
-"""esto es importante... 
+- Columna predictora: Se realizará utilizando los datos MOTOR TORQUE/LAG_ERROR, es decir, columna 2 y 3.
 
-¿Qué tenemos que saber de cada columna?
-Definición._.
-Unidad de medida ._.
-Tipo de variable (si es categórica necesitamos saber los valores únicos y su distribución)
-Gráficos y preprocesamiento aplicado"""
+
