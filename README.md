@@ -162,8 +162,42 @@ Conclusión técnica: La falta de sincronía (lejos del valor óptimo de 1 o -1)
 https://cursos.kobalto.es/teoria/seaborn-criterio-experto
 
 ## SIGUIENTES PASOS
-@@ PREPROCESAMIENTO
 
-- Columna predictora: Se realizará utilizando los datos MOTOR TORQUE/LAG_ERROR, es decir, columna 2 y 3.
+
+Para el desarrollo del modelo predictivo (machine learning), se han diseñado cinco variables sintéticas que transforman los datos brutos de los sensores en indicadores de salud mecánica:
+
+**1.-** Averia_Motor: Variable binaria (0/1). Se activa cuando el error de seguimiento del motor de corte (pCut::Lag_error) supera el umbral crítico de 1 (aunque se recomienda 0.5). Representa una pérdida de precisión inmediata en la estación de corte.
+
+umbral_averia_motor = 1
+
+df1_copia['Averia_Motor'] = (df1_copia['pCut::CTRL_Position_controller::Lag_error'].abs() >= umbral_averia_motor).astype(int)
+
+**2.-** Averia_Film: Variable binaria (0/1). Indica una anomalía en la estación de alimentación de film cuando el pSvolFilm::Lag_error supera 2 (aunque se recomienda 0.5), señalando posibles tirones o falta de tensión en el material.
+
+umbral_averia_film = 2
+
+df1_copia['Averia_Film'] = (df1_copia['pSvolFilm::CTRL_Position_controller::Lag_error'].abs() >= umbral_averia_film).astype(int)
+
+3.- Sincronia (desfase): Calcula la diferencia entre la velocidad de referencia ideal (VAX_speed) y la velocidad real de la maquinaria. Es vital para identificar desajustes en el "ritmo" del proceso que causan el 80% de los fallos.
+
+df1_copia['desfase'] = df1_copia['pSpintor::VAX_speed'] - df1_copia['pSvolFilm::CTRL_Position_controller::Actual_speed']
+
+4.- Esfuerzo_Relativo: Relación matemática entre el par del motor (Motor_Torque) y el error cometido (Lag_error). Mide la eficiencia: cuánta fuerza extra debe aplicar el sistema para corregir una desviación de posición.
+
+df1_copia['esfuerzo_relativo'] = df1_copia['pCut::Motor_Torque'] / (df1_copia['pCut::CTRL_Position_controller::Lag_error'] + 1e-5)
+
+5.- Fatiga: Basada en una media móvil (Rolling Mean) de los errores acumulados. Identifica el Drift o degradación progresiva, permitiendo detectar el desgaste antes de que ocurra una parada de emergencia.
+Al utilizar una media móvil del error de seguimiento, logramos identificar la 'fatiga invisible' o drift mecánico (La deriva, El drift es cuando el error va subiendo muy despacio), permitiendo al algoritmo predecir un fallo antes de que los sensores alcancen niveles críticos de alarma.
+(https://cursos.kobalto.es/teoria/pandas-datetime#method=rolling)
+
+df1_copia['Fatiga_Motor'] = df1_copia['pCut::CTRL_Position_controller::Lag_error'].abs().rolling(window=100).mean()
+
+Ahora, se añadirá el siguiente código para corregir los NaN iniciales en los valores fatiga:
+https://cursos.kobalto.es/teoria/pandas-missing#method=fillna
+
+df1_copia.fillna(0, inplace=True)  
+
+Cambia los NaN del principio por 0, ya que los primeros valores no tienen los suficiente valores para el promedio. 
+
 
 
