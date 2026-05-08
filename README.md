@@ -199,5 +199,23 @@ df1_copia.fillna(0, inplace=True)
 
 Cambia los NaN del principio por 0, ya que los primeros valores no tienen los suficiente valores para el promedio. 
 
+## COLUMNAS FINALES:
+
+**1.-** Averia_Motor: Variable binaria (0/1). Se activa cuando el error de seguimiento del motor de corte (pCut::Lag_error) supera el umbral crítico de 1 (aunque se recomienda 0.5). Representa una pérdida de precisión inmediata en la estación de corte.
+
+umbral_averia_motor = 1
+
+df1_copia['Averia_Motor'] = (df1_copia['pCut::CTRL_Position_controller::Lag_error'].abs() >= umbral_averia_motor).astype(int)
+
+**2.-** Averia_Film: Variable binaria (0/1). Indica una anomalía en la estación de alimentación de film cuando el pSvolFilm::Lag_error supera 2 (aunque se recomienda 0.5), señalando posibles tirones o falta de tensión en el material.
+
+umbral_averia_film = 2
+
+df1_copia['Averia_Film'] = (df1_copia['pSvolFilm::CTRL_Position_controller::Lag_error'].abs() >= umbral_averia_film).astype(int)
+
+3.- Relación averías, la Avería Total es 1 si cualquiera de las dos averías específicas ocurre.
+
+df1_copia['Averia_Total'] = ((df1_copia['Averia_Motor'] == 1) | (df1_copia['Averia_Film'] == 1)).astype(int)
+
 
 
