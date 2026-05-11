@@ -218,4 +218,71 @@ df1_copia['Averia_Film'] = (df1_copia['pSvolFilm::CTRL_Position_controller::Lag_
 df1_copia['Averia_Total'] = ((df1_copia['Averia_Motor'] == 1) | (df1_copia['Averia_Film'] == 1)).astype(int)
 
 
+## GRÁFICAS
+
+Se han realizado las siguientes gráficas de barplot con gráficas sintéticas (s1, s2 y avería), con el objetivo de conocer error/ No error:
+
+1.- Avería sensor 1 y 2
+2.- No avería sensores
+3.- Avería sensor 1 y no sensor 2
+4.- No avería sensor 1 y avería sensor 2.
+
+## PREPROCESAMIENTO
+
+- Se ha realizado el preprocesamiento de los datos, convirtiendo a través de un OrdinalEncoder la columna Mode.
+- A través de un StandarScaler, se han "estandarizado las columnas", sin incluir las columnas sintéticas, obteniendo el X_scaler para posteriores análisis. Se ha optado por la estandarización mediante StandardScaler en lugar de una normalización de rango fijo (0-1). Esto permite que el modelo de Machine Learning interprete mejor las desviaciones del motor, manteniendo la integridad de los valores extremos (outliers) que son, precisamente, los que definen nuestras situaciones de avería S1 y S2."
+
+## PCA
+
+**Búsqueda de la inercia**
+
+- Mediante el siguiente código hemos obtenido la inercia:
+
+inertia = []  # Guardaremos la inercia para diferentes valores de k (número de clústeres)
+for k in range(1, 11):  # Probar para k = 1 hasta k = 10
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(X_scaled)
+    inertia.append(kmeans.inertia_)
+
+# Graficar la inercia para cada k (Método del Codo)
+plt.figure(figsize=(8, 6))
+plt.plot(range(1, 11), inertia, marker='o')
+plt.title('Método del Codo para elegir el número de clústeres')
+plt.xlabel('Número de clústeres (k)')
+plt.ylabel('Inercia')
+plt.show()
+
+![alt text](image.png)
+
+**Búsqueda del codo**
+
+- Ahora si esta es la gráfica para encontrar el codo:
+
+# 1. Configuramos el PCA (sin límite de componentes para verlos todos)
+pca = PCA()
+pca.fit(X_scaled)  
+
+# 2. Calculamos la varianza acumulada. cumsum= Suma acumulativa. Cada elemento es la suma de todos los anteriores.
+varianza_acumulada = np.cumsum(pca.explained_variance_ratio_)
+
+# 3. Graficamos el codo (DEBE SER ASCENDENTE)
+plt.figure(figsize=(9, 6))
+plt.plot(range(1, len(varianza_acumulada) + 1), varianza_acumulada, marker='o', linestyle='-', color='b')
+plt.axhline(y=0.90, color='r', linestyle='--', label='90% Varianza') # Referencia del 90%
+plt.title('Gráfico de Varianza Explicada Acumulada (Codo PCA)')
+plt.xlabel('Número de Componentes Principales')
+plt.ylabel('Varianza Explicada Acumulada (%)')
+plt.legend(loc='best')
+plt.grid(True)
+plt.show()
+
+![alt text](image-2.png)
+
+
+
+
+
+
+
+
 
