@@ -2,14 +2,14 @@ from tkinter import *
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+import joblib
 
 entrenado = False
 
@@ -70,21 +70,31 @@ def entrenamiento():
 
     y = df1_copia["averia"]
 
-    encoder = OrdinalEncoder(
-        categories=[['mode0', 'mode1', 'mode2', 'mode3', 'mode4', 'mode5', 'mode6', 'mode7', 'mode8']]
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
     )
-    X['mode'] = encoder.fit_transform(X1)
 
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    mode_categories = [[
+        'mode0', 'mode1', 'mode2', 'mode3',
+        'mode4', 'mode5', 'mode6', 'mode7', 'mode8'
+    ]]
 
-    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('mode_encoder', OrdinalEncoder(categories=mode_categories), ['mode']),
+            ('num_scaler',StandardScaler())
+        ]
+    )
 
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    modelo = Pipeline([
+        ('preprocessing', preprocessor),
+        ('model', RandomForestClassifier(n_estimators=100, random_state=42))
+    ])
 
-    model.fit(X_train, y_train)
+    modelo.fit(X_train, y_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = modelo.predict(X_test)
+    joblib.dump(modelo, "modelo.joblib")
 
 def prediccion(datos: dict):
     # Variable en la que se almacenen los valores en un map
@@ -99,7 +109,6 @@ def prediccion(datos: dict):
     probabilidad = model.predict_proba(X_scaled)[0][prediccion]*100
 
     resultado = "Avería" if prediccion == 1 else "Funcionamiento Correcto"
-    print(resultado)
     return f"\nPredicción: {resultado} ({probabilidad:.2f}% de confianza)"
 
 def p_completa(event):
