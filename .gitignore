@@ -1,3 +1,5 @@
 .venv
 One_year_compiled.csv
 One_year_compiled_copia.csv
+.vscode
+__pycache__
