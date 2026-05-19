@@ -13,8 +13,6 @@ from sklearn.metrics import accuracy_score
 
 entrenado = False
 
-var_resultado = ""
-
 pantalla_completa = True
 
 ventana_proyecto = Tk()
@@ -86,14 +84,11 @@ def entrenamiento():
 
     y_pred = model.predict(X_test)
 
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f'Precisión del Random Forest: {accuracy * 100:.2f}%')
-
 def prediccion(datos: dict):
     # Variable en la que se almacenen los valores en un map
     # Map to dataframe
     global model
-    X = pd.DataFrame(datos)
+    X = pd.DataFrame([datos])
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
@@ -103,7 +98,7 @@ def prediccion(datos: dict):
 
     resultado = "Avería" if prediccion == 1 else "Funcionamiento Correcto"
 
-    return f"\nPredicción: {resultado} ({probabilidad:.2f}% de confianza)"
+    return f"{resultado} ({probabilidad:.2f}% de probabilidad)"
 
 def p_completa(event):
     global pantalla_completa
@@ -114,28 +109,33 @@ def cerrar(event):
     ventana_proyecto.destroy()
 
 def envio():
-    global var_resultado
     global entrenado
     if not entrenado:
+        # resultado.config(text = "Entrenando Modelo...")
         entrenamiento()
         entrenado = True
     dict_formulario = {
-        "timestamp": 0,
-        "pCut::Motor_Torque": 0,
-        "pCut::CTRL_Position_controller::Lag_error": 0,
-        "pCut::CTRL_Position_controller::Actual_position": 0,
-        "pCut::CTRL_Position_controller::Actual_speed": 0,
-        "pSvolFilm::CTRL_Position_controller::Actual_position": 0,
-        "pSvolFilm::CTRL_Position_controller::Actual_speed": 0,
-        "pSvolFilm::CTRL_Position_controller::Lag_error": 0,
-        "pSpintor::VAX_speed": 0,
-        "month": 0,
-        "day": 0,
-        "hour": 0,
-        "sample_Number": 0,
-        "mode": 0,
+        "timestamp": float(timestamp.get("1.0", END)),
+        "pCut::Motor_Torque": float(pcut_motor_torque.get("1.0", END)),
+        "pCut::CTRL_Position_controller::Lag_error": float(pcut_ctrl_position_controller_lag_error.get("1.0", END)),
+        "pCut::CTRL_Position_controller::Actual_position": float(pcut_ctrl_position_controller_actual_position.get("1.0", END)),
+        "pCut::CTRL_Position_controller::Actual_speed": float(pcut_ctrl_position_controller_actual_speed.get("1.0", END)),
+        "pSvolFilm::CTRL_Position_controller::Actual_position": float(psvolfilm_ctrl_position_controller_actual_position.get("1.0", END)),
+        "pSvolFilm::CTRL_Position_controller::Actual_speed": float(psvolfilm_ctrl_position_controller_actual_speed.get("1.0", END)),
+        "pSvolFilm::CTRL_Position_controller::Lag_error": float(psvolfilm_ctrl_position_controller_lag_error.get("1.0", END)),
+        "pSpintor::VAX_speed": float(pspintor_vax_speed.get("1.0", END)),
+        "month": int(month.get("1.0", END)),
+        "day": int(day.get("1.0", END)),
+        "hour": int(hour.get("1.0", END)),
+        "sample_Number": int(sample_number.get("1.0", END)),
+        "mode": int(mode.get("1.0", END))
     }
-    var_resultado = prediccion(dict_formulario)
+    # resultado.config(text = "Cargando Resultado...")
+    # var_resultado = prediccion(dict_formulario)
+    # if var_resultado == "Avería":
+        # resultado.config(text = f"{var_resultado}", fg = "red")
+    # elif var_resultado == "Funcionamiento Correcto":
+    resultado.config(text = f"{prediccion(dict_formulario)}")
     
 
 ventana_proyecto.bind("<Escape>", cerrar)
@@ -300,8 +300,8 @@ r_etiqueta = Label(marco, text = f"Resultado:", fg = "lime", bg = "black", font 
 
 r_etiqueta.place(relx = 0.457, rely = 0.75)
 
-resultado = Label(marco, text = var_resultado, width = 20, fg = "white", bg = "black", font = ("Comic Sans MS", 15))
+resultado = Label(marco, text = "", width = 60, fg = "lime", bg = "black", font = ("Comic Sans MS", 15))
 
-resultado.place(relx = 0.403, rely = 0.85)
+resultado.place(relx = 0.21, rely = 0.85)
 
 ventana_proyecto.mainloop()
